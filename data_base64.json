@@ -1,0 +1,60 @@
+{
+    "prm": [
+      170,90,207,16,
+      {
+        "I": [
+          {
+            "tem": [
+              "EhMUFRYXGBkaGxwdHg==",
+              "AQIDBAUGBwgJCgsMDQ=="
+            ]
+          }
+        ]
+      },
+      {
+        "I": [
+          {
+            "pwr": [
+              "AAE=",
+              "ITE="
+            ]
+          }
+        ]
+      },
+      {
+        "I": [
+          {
+            "mod": [
+              "AQIDBAU=",
+              "AAECAwQ="
+            ]
+          },
+          {
+            "fan": [
+              "AAECAw==",
+              "IDBQcA=="
+            ]
+          }
+        ],
+        "opt": "QAAARQEA"
+      },
+      0,8,128,0,240,
+      {
+        "opt": "gQAAigALhwEBiAIEBwIDhAQPiQUEhQYB"
+      }
+    ],
+    "pul": [
+      {
+        "mod": 1
+      },
+      {
+        "table": [
+          "1gHWAQAP1gE=",
+          "1wF4BYAHAAA="
+        ]
+      },
+      {
+        "conv": "AAIBAQANAAMB"
+      }
+    ]
+  }
