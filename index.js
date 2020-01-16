@@ -28,7 +28,7 @@ var data_prm = data.prm;
 
 class IRGatewayManager {
 
-    //convert
+    convert
     static convert(op, val) {
         switch(op) {
             case 'D2H': 
@@ -57,14 +57,14 @@ class IRGatewayManager {
 
     static converArrHexToDec(arr) {
         let newArr = arr.map(x => {
-            return convert('H2D',x);
+            return IRGatewayManager.convert('H2D',x);
         })
         return newArr;
     }
 
     static convertArrDecToHex(arr) {
         let newArr = arr.map(x => {
-            return convert('D2H',x);
+            return IRGatewayManager.convert('D2H',x);
         })
         return newArr;
     }
@@ -73,11 +73,11 @@ class IRGatewayManager {
     static base64toHEX(base64) {
         var raw = atob(base64);
         var HEX = [];
-        for ( i = 0; i < raw.length; i++ ) {
+        for (let i = 0; i < raw.length; i++ ) {
         var _hex = raw.charCodeAt(i).toString(16)
         HEX.push(_hex.length==2?_hex:'0'+_hex);
         }
-        return converArrHexToDec(HEX);
+        return IRGatewayManager.converArrHexToDec(HEX);
     }
 
     static HextoBase64(hexstring) {
@@ -195,11 +195,11 @@ class IRGatewayManager {
 
     static highBit(numHex) {
         let bit = [];
-        let numDec = convert('H2D', numHex);
-        let fistNum = numDec & convert('H2D', '80');
-        let secondNum = numDec & convert('H2D', '40');
-        let thirth = numDec & convert('H2D', '3F');
-        bit.push(thirth, checkBit(fistNum), checkBit(secondNum));
+        let numDec = IRGatewayManager.convert('H2D', numHex);
+        let fistNum = numDec & IRGatewayManager.convert('H2D', '80');
+        let secondNum = numDec & IRGatewayManager.convert('H2D', '40');
+        let thirth = numDec & IRGatewayManager.convert('H2D', '3F');
+        bit.push(thirth, IRGatewayManager.checkBit(fistNum), IRGatewayManager.checkBit(secondNum));
         return bit;
     }
 
@@ -223,15 +223,15 @@ class IRGatewayManager {
             }
         }
         let BA = BA_term.map(x => {
-            return highBit(convert('D2H',x))[0];
+            return IRGatewayManager.highBit(IRGatewayManager.convert('D2H',x))[0];
         })
 
         let B_byte6 = BA_term.map(x => {
-            return highBit(convert('D2H',x))[2];
+            return IRGatewayManager.highBit(IRGatewayManager.convert('D2H',x))[2];
         })
 
         let A_byte7 = BA_term.map(x => {
-            return highBit(convert('D2H',x))[1];
+            return IRGatewayManager.highBit(IRGatewayManager.convert('D2H',x))[1];
         })
 
         for (let i = 0; i < BA.length; i++) {
@@ -275,176 +275,176 @@ class IRGatewayManager {
                 if (B_byte6[i] === 0 && A_byte7[i] === 0) {
                     A_term = C[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(2, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(2, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 0) {
                     A_term = I_arr[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(2, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(2, A_term, B_term));
                 } 
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
                     A_term = C[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(2, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(2, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 1) {
                     A_term = I_arr[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(2, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(2, A_term, B_term));
                 }
             }
             if (BA[i] === 3) {
                 if (B_byte6[i] === 0 && A_byte7[i] === 0) {
                     A_term = C[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(3, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(3, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 0) {
                     A_term = I_arr[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(3, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(3, A_term, B_term));
                 } 
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
                     A_term = C[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(3, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(3, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 1) {
                     A_term = I_arr[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(3, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(3, A_term, B_term));
                 }
             }
             if (BA[i] === 4) {
                 if (B_byte6[i] === 0 && A_byte7[i] === 0) {
                     A_term = C[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(4, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(4, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 0) {
                     A_term = I_arr[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(4, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(4, A_term, B_term));
                 } 
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
                     A_term = C[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(4, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(4, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 1) {
                     A_term = I_arr[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(4, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(4, A_term, B_term));
                 }
             }
             if (BA[i] === 5) {
                 if (B_byte6[i] === 0 && A_byte7[i] === 0) {
                     A_term = C[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(5, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(5, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 0) {
                     A_term = I_arr[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(5, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(5, A_term, B_term));
                 } 
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
                     A_term = C[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(5, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(5, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 1) {
                     A_term = I_arr[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(5, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(5, A_term, B_term));
                 }
             }
             if (BA[i] === 6) {
                 if (B_byte6[i] === 0 && A_byte7[i] === 0) {
                     A_term = C[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(6, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(6, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 0) {
                     A_term = I_arr[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(6, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(6, A_term, B_term));
                 } 
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
                     A_term = C[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(6, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(6, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 1) {
                     A_term = I_arr[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(6, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(6, A_term, B_term));
                 }
             }
             if (BA[i] === 7) {
                 if (B_byte6[i] === 0 && A_byte7[i] === 0) {
                     A_term = C[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(7, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(7, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 0) {
                     A_term = I_arr[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(7, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(7, A_term, B_term));
                 } 
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
                     A_term = C[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(7, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(7, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 1) {
                     A_term = I_arr[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(7, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(7, A_term, B_term));
                 }
             }
             if (BA[i] === 8) {
                 if (B_byte6[i] === 0 && A_byte7[i] === 0) {
                     A_term = C[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(8, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(8, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 0) {
                     A_term = I_arr[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(8, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(8, A_term, B_term));
                 } 
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
                     A_term = C[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(8, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(8, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 1) {
                     A_term = I_arr[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(8, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(8, A_term, B_term));
                 }
             }
             if (BA[i] === 9) {
                 if (B_byte6[i] === 0 && A_byte7[i] === 0) {
                     A_term = C[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(9, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(9, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 0) {
                     A_term = I_arr[A[i]];
                     B_term = C[B[i]];
-                    C.push(logicalFunc(9, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(9, A_term, B_term));
                 } 
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
                     A_term = C[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(9, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(9, A_term, B_term));
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 1) {
                     A_term = I_arr[A[i]];
                     B_term = B[i];
-                    C.push(logicalFunc(9, A_term, B_term));
+                    C.push(IRGatewayManager.logicalFunc(9, A_term, B_term));
                 }
             }
             if (BA[i] === 10) {
@@ -485,38 +485,38 @@ class IRGatewayManager {
             }
             if (BA[i] === 11) {
                 if (B_byte6[i] === 0 && A_byte7[i] === 0) {
-                    C.push(invert(C[A[i]]));
-                    A_term = invert(C[A[i]]); 
+                    C.push(IRGatewayManager.invert(C[A[i]]));
+                    A_term = IRGatewayManager.invert(C[A[i]]); 
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 0) {
-                    C.push(invert(A[i]));
-                    A_term = invert(A[i]);
+                    C.push(IRGatewayManager.invert(A[i]));
+                    A_term = IRGatewayManager.invert(A[i]);
                 }
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
-                    C.push(invert(C[A[i]]));
-                    A_term = invert(C[A[i]]);
+                    C.push(IRGatewayManager.invert(C[A[i]]));
+                    A_term = IRGatewayManager.invert(C[A[i]]);
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 1) {
-                    C.push(invert(A[i]));
-                    A_term = invert(A[i]);
+                    C.push(IRGatewayManager.invert(A[i]));
+                    A_term = IRGatewayManager.invert(A[i]);
                 }
             }
             if (BA[i] === 12) {
                 if (B_byte6[i] === 0 && A_byte7[i] === 0) {
-                    C.push(invert(C[B[i]]));
-                    B_term = invert(C[B[i]]); 
+                    C.push(IRGatewayManager.invert(C[B[i]]));
+                    B_term = IRGatewayManager.invert(C[B[i]]); 
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 0) {
-                    C.push(invert(B[i]));
-                    B_term = invert(B[i]);
+                    C.push(IRGatewayManager.invert(B[i]));
+                    B_term = IRGatewayManager.invert(B[i]);
                 }
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
-                    C.push(invert(C[B[i]]));
-                    B_term = invert(C[B[i]]);
+                    C.push(IRGatewayManager.invert(C[B[i]]));
+                    B_term = IRGatewayManager.invert(C[B[i]]);
                 }
                 if (B_byte6[i] === 1 && A_byte7[i] === 1) {
-                    C.push(invert(B[i]));
-                    B_term = invert(B[i]);
+                    C.push(IRGatewayManager.invert(B[i]));
+                    B_term = IRGatewayManager.invert(B[i]);
                 }
             }
         }
@@ -530,11 +530,11 @@ class IRGatewayManager {
         for (let i = 0; i < arr.length; i++) {
             byteArr.push(arr[i]);
         }
-        byteArr.splice(4,0, byteFour(arrIn[0]));
-        byteArr.splice(5,0, byteFive(arrIn[1]));
-        byteArr.splice(6,0, byteSix(arrIn[2], arrIn[3]));
+        byteArr.splice(4,0, IRGatewayManager.byteFour(arrIn[0]));
+        byteArr.splice(5,0, IRGatewayManager.byteFive(arrIn[1]));
+        byteArr.splice(6,0, IRGatewayManager.byteSix(arrIn[2], arrIn[3]));
 
-        let lastByte = checkSum(byteArr);
+        let lastByte = IRGatewayManager.checkSum(byteArr);
         byteArr.push(lastByte);
         
         return convertArrDecToHex(byteArr);
