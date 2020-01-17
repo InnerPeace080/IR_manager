@@ -520,7 +520,8 @@ class IRGatewayManager {
                 }
             }
         }
-        return [A, B_byte6 , B, A_byte7, BA, C];
+        // return [A, B_byte6 , B, A_byte7, BA, C];
+        return C;
     }
 
     //array byte 
@@ -532,16 +533,19 @@ class IRGatewayManager {
         }
         byteArr.splice(4,0, IRGatewayManager.byteFour(arrIn[0]));
         byteArr.splice(5,0, IRGatewayManager.byteFive(arrIn[1]));
-        byteArr.splice(6,0, IRGatewayManager.byteSix(arrIn[2], arrIn[3]));
+        // byteArr.splice(6,0, IRGatewayManager.byteSix(arrIn[2], arrIn[3]));
+        // byteArr.splice(6,0, IRGatewayManager)
 
         let lastByte = IRGatewayManager.checkSum(byteArr);
         byteArr.push(lastByte);
         
-        return convertArrDecToHex(byteArr);
+        return IRGatewayManager.convertArrDecToHex(byteArr);
     }
 }
 
 module.exports = IRGatewayManager;
+
+
 
 
 
