@@ -1,37 +1,42 @@
 {
-  "b byteMap": [170, 90, 207, 16, 
+  "b": [170,90,207,16,
     {
-      "i input": [{
-        "n name":"tem",
-        "m mapping": [
-          "EhMUFRYXGBkaGxwdHg==",
-          "AQIDBAUGBwgJCgsMDQ=="
-        ]
-      }]
-    }, 
+      "i": [
+        {
+          "n": "tem",
+          "m": ["EhMUFRYXGBkaGxwdHg==","AQIDBAUGBwgJCgsMDQ=="]
+        }
+      ]
+    },
     {
-      "i input": [{
-        "n name":"pwr",
-        "m mapping": ["AAE=", "ITE="]
-      }]
-    }, 
+      "i": [
+        {
+          "n": "pwr",
+          "m": ["AAE=", "ITE="]
+        }
+      ]
+    },
     {
-      "i input": [{
-        "n name":"mod",
-        "m mapping": ["AQIDBAU=", "AAECAwQ="]
-      }, {
-        "n name":"fan",
-        "m mapping":["AAECAw==","IDBQcA=="]
-      }],
-      "o opt": "QAAARQEA"
-    }, 0, 8, 128, 0, 240,
+      "i": [
+        {
+          "n": "mod",
+          "m": ["AQIDBAU=", "AAECAwQ="]
+        },
+        {
+          "n": "fan",
+          "m": ["AAECAw==","IDBQcA=="]
+        }
+      ],
+      "o": "QAAARQEA"
+    },
+    0,8,128,0,240,
     {
-      "o opt": "gQAAigALhwEBiAIEBwIDhAQPiQUEhQYB"
+      "o": "gQAAigALhwEBiAIEBwIDhAQPiQUEhQYB"
     }
   ],
-  "m modulation": {
-    "t type": 1,
-    "tb table": ["1gHWAQAP1gE=", "1wF4BYAHAAA="],
-    "c conv": "AAIBAQANAAMB"
+  "m": {
+    "t": 1,
+    "tb": ["1gHWAQAP1gE=", "1wF4BYAHAAA="],
+    "c": "AAIBAQANAAMB"
   }
 }
