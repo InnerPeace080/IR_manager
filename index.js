@@ -24,6 +24,7 @@ var fs = require('fs');
 
 var rawdata = fs.readFileSync('data.json');
 var data = JSON.parse(rawdata);
+var data_m = data.m;
 var data_prm = data.prm;
 
 class IRGatewayManager {
@@ -65,6 +66,13 @@ class IRGatewayManager {
     static convertArrDecToHex(arr) {
         let newArr = arr.map(x => {
             return IRGatewayManager.convert('D2H',x);
+        })
+        return newArr;
+    }
+
+    static convertArrDecToBinary(arr) {
+        let newArr = arr.map(x => {
+            return IRGatewayManager.convert('D2B', x);
         })
         return newArr;
     }
@@ -540,6 +548,45 @@ class IRGatewayManager {
         // byteArr.push(lastByte);
         
         return IRGatewayManager.convertArrDecToHex(byteArr);
+    }
+
+    static convertIRCode(opt, arr) {
+        var IR_code = [];
+        var tb_mapping = opt.tb;
+        var oldArr = IRGatewayManager.convertArrDecToBinary(arr);
+        var newArr = IRGatewayManager.convertArrDecToBinary(arr).map(x => {
+            let char_temp = x.charAt(x.length-1);
+            return char_temp + x.substring(0, x.length - 1);
+        });
+        if (opt.t == 1) {
+            var Bit_temp = [];
+            for (let i = 0; i < newArr[0].length; i++) {
+                if (newArr[0].charAt(i) == 0) {
+                    Bit_temp.push(tb_mapping[0][0]);
+                    Bit_temp.push(tb_mapping[1][0]);
+                }
+                if (newArr[0].charAt(i) == 1) {
+                    Bit_temp.push(tb_mapping[0][1]);
+                    Bit_temp.push(tb_mapping[1][1]);
+                }
+            }
+            IR_code.push(Bit_temp);
+            for (let i = 1; i < oldArr.length; i++) {
+                Bit_temp = [];
+                for (let k = 0; k < oldArr[i].length; k++) {
+                    if (oldArr[i].charAt(k) == 0) {
+                        Bit_temp.push(tb_mapping[0][0]);
+                        Bit_temp.push(tb_mapping[1][0]);
+                    }
+                    if (oldArr[i].charAt(k) == 1) {
+                        Bit_temp.push(tb_mapping[0][1]);
+                        Bit_temp.push(tb_mapping[1][1]);
+                    }
+                }
+                IR_code.push(Bit_temp);
+            }
+        }
+        return IR_code;
     }
 }
 
