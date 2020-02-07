@@ -78,7 +78,7 @@ class IRGatewayManager {
     }
 
     //base64 to byte array
-    static base64toHEX(base64) {
+    static base64toBufferArray(base64) {
         var raw = atob(base64);
         var HEX = [];
         for (let i = 0; i < raw.length; i++ ) {
@@ -88,11 +88,14 @@ class IRGatewayManager {
         return IRGatewayManager.converArrHexToDec(HEX);
     }
 
-    static HextoBase64(hexstring) {
-        return btoa(hexstring.match(/\w{2}/g).map(function(a) {
-            return String.fromCharCode(parseInt(a, 16));
-        }).join(""));
+    static BufferArraytoBase64(buf) {
+        var data = new Uint8Array(buf);
+        var binstr = Array.prototype.map.call(data, function (ch) {
+            return String.fromCharCode(ch);
+        }).join('');
+        return btoa(binstr);
     }
+    
 
     //get IR
     static getIR_unfix(arr) {
