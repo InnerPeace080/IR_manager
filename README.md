@@ -14,6 +14,11 @@ ACI is api for caculate IRcode for Airconditioner(SHARP and anything AC). Its en
 -BufferArraytoBase64(BufferArray)         convert BufferArray to base64
 -convertIRCode(data_modulation, ByteMap)  caculate IRCode
 ```
+## Setup
+
+```base
+$ npm install
+```
 
 ### Example
 
