@@ -57,24 +57,24 @@ class IRGatewayManager {
     }
 
     static converArrHexToDec(arr) {
-        let newArr = arr.map(x => {
+        let oldArr = arr.map(x => {
             return IRGatewayManager.convert('H2D',x);
         })
-        return newArr;
+        return oldArr;
     }
 
     static convertArrDecToHex(arr) {
-        let newArr = arr.map(x => {
+        let oldArr = arr.map(x => {
             return IRGatewayManager.convert('D2H',x);
         })
-        return newArr;
+        return oldArr;
     }
 
     static convertArrDecToBinary(arr) {
-        let newArr = arr.map(x => {
+        let oldArr = arr.map(x => {
             return IRGatewayManager.convert('D2B', x);
         })
-        return newArr;
+        return oldArr;
     }
 
     //base64 to byte array
@@ -553,27 +553,116 @@ class IRGatewayManager {
         return IRGatewayManager.convertArrDecToHex(byteArr);
     }
 
+    //convertIRCode
     static convertIRCode(opt, arr) {
         var IR_code = [];
+        var IR_code_done = [];
         var tb_mapping = opt.tb;
+        var mod = opt.c;
+        var mod_byte1 = [];
+        var mod_byte2 = [];
+        var mod_byte3 = [];
+        var hr_bit = [];
+        var mid_bit = [];
+        var end_bit = [];
+
+        for (let i = 0; i < mod.length; i++) {
+            if (i % 3 == 0) {
+                mod_byte1.push(mod[i]);
+            }
+            if (i % 3 == 1) {
+                mod_byte2.push(mod[i]);
+            }
+            if (i % 3 == 2) {
+                mod_byte3.push(mod[i]);
+            }
+        }
+
         var oldArr = IRGatewayManager.convertArrDecToBinary(arr);
-        var newArr = IRGatewayManager.convertArrDecToBinary(arr).map(x => {
-            let char_temp = x.charAt(x.length-1);
-            return char_temp + x.substring(0, x.length - 1);
-        });
-        if (opt.t == 1) {
+
+        //caculate all byte
+        if (opt.t == 0) {       //if type 1: LSB8 input bit LSB of byte MSB first 
             var Bit_temp = [];
-            for (let i = 0; i < newArr[0].length; i++) {
-                if (newArr[0].charAt(i) == 0) {
+            
+            //byte MSB
+            for (let i = oldArr[oldArr.length-1].length-1; i >= 0 ; i--) {
+                if (oldArr[oldArr.length-1].charAt(i) == 0) {
                     Bit_temp.push(tb_mapping[0][0]);
                     Bit_temp.push(tb_mapping[1][0]);
                 }
-                if (newArr[0].charAt(i) == 1) {
+                if (oldArr[oldArr.length-1].charAt(i) == 1) {
                     Bit_temp.push(tb_mapping[0][1]);
                     Bit_temp.push(tb_mapping[1][1]);
                 }
             }
             IR_code.push(Bit_temp);
+
+            for (let i = 0; i < oldArr.length-1; i++) {
+                Bit_temp = [];
+                for (let k = oldArr[i].length-1; k >= 0 ; k--) {
+                    if (oldArr[i].charAt(k) == 0) {
+                        Bit_temp.push(tb_mapping[0][0]);
+                        Bit_temp.push(tb_mapping[1][0]);
+                    }
+                    if (oldArr[i].charAt(k) == 1) {
+                        Bit_temp.push(tb_mapping[0][1]);
+                        Bit_temp.push(tb_mapping[1][1]);
+                    }
+                }
+                IR_code.push(Bit_temp);
+            }
+            
+        }
+
+        if (opt.t == 1) {       //if type 1: LSB8 input bit LSB of byte MSB first 
+            var Bit_temp = [];
+            
+            //byte MSB
+            for (let i = oldArr[0].length-1; i >= 0 ; i--) {
+                if (oldArr[0].charAt(i) == 0) {
+                    Bit_temp.push(tb_mapping[0][0]);
+                    Bit_temp.push(tb_mapping[1][0]);
+                }
+                if (oldArr[0].charAt(i) == 1) {
+                    Bit_temp.push(tb_mapping[0][1]);
+                    Bit_temp.push(tb_mapping[1][1]);
+                }
+            }
+            IR_code.push(Bit_temp);
+
+            for (let i = 1; i < oldArr.length; i++) {
+                Bit_temp = [];
+                for (let k = oldArr[i].length-1; k >= 0 ; k--) {
+                    if (oldArr[i].charAt(k) == 0) {
+                        Bit_temp.push(tb_mapping[0][0]);
+                        Bit_temp.push(tb_mapping[1][0]);
+                    }
+                    if (oldArr[i].charAt(k) == 1) {
+                        Bit_temp.push(tb_mapping[0][1]);
+                        Bit_temp.push(tb_mapping[1][1]);
+                    }
+                }
+                IR_code.push(Bit_temp);
+            }
+            
+        }
+
+        if (opt.t == 2) {       //if type 1: LSB8 input bit LSB of byte MSB first 
+            var Bit_temp = [];
+            
+            //byte MSB
+            for (let i = 0; i < oldArr[0].length ; i++) {
+                if (oldArr[0].charAt(i) == 0) {
+                    Bit_temp.push(tb_mapping[0][0]);
+                    Bit_temp.push(tb_mapping[1][0]);
+                }
+                if (oldArr[0].charAt(i) == 1) {
+                    Bit_temp.push(tb_mapping[0][1]);
+                    Bit_temp.push(tb_mapping[1][1]);
+                }
+            }
+            IR_code.push(Bit_temp);
+
             for (let i = 1; i < oldArr.length; i++) {
                 Bit_temp = [];
                 for (let k = 0; k < oldArr[i].length; k++) {
@@ -588,9 +677,83 @@ class IRGatewayManager {
                 }
                 IR_code.push(Bit_temp);
             }
+            
         }
-        return IR_code;
+
+        //bit header
+        if (mod_byte1[0] == 0) {   //bit
+            for (let i = 0; i < mod_byte3[0]; i++) {
+                hr_bit.push(tb_mapping[0][mod_byte2[0]],tb_mapping[1][mod_byte2[0]]);
+            }
+            IR_code.unshift(hr_bit);
+        }
+        if (mod_byte1[0] == 1) {   //byte
+            for (let i = mod_byte2[0]; i < (mod_byte2[0] + mod_byte3[0]); i++) {
+                hr_bit.push(IR_code[mod_byte2[0]]);
+            }
+            IR_code.unshift(hr_bit);
+        }
+
+        // //bit middle
+        // if (mod_byte1[1] == 0) {   //bit
+        //     for (let i = 0; i < mod_byte3[1]; i++) {
+        //         mid_bit.push(tb_mapping[0][mod_byte2[1]],tb_mapping[1][mod_byte2[1]]);
+        //     }
+        //     IR_code.unshift(mid_bit);
+        // }
+        // if (mod_byte1[1] == 1) {   //byte
+        //     for (let i = mod_byte2[1]; i < (mod_byte2[1] + mod_byte3[1]); i++) {
+        //         mid_bit.push(IR_code[mod_byte2[1]]);
+        //     }
+        //     IR_code.unshift(mid_bit);
+        // }
+
+        //bit end
+        if (mod_byte1[2] == 0) {   //bit
+            for (let i = 0; i < mod_byte3[2]; i++) {
+                end_bit.push(tb_mapping[0][mod_byte2[2]],tb_mapping[1][mod_byte2[2]]);
+            }
+            IR_code.push(end_bit);
+        }
+        if (mod_byte1[2] == 1) {   //byte
+            for (let i = mod_byte2[2]; i < (mod_byte2[2] + mod_byte3[2]); i++) {
+                end_bit.push(IR_code[mod_byte2[2]]);
+            }
+            IR_code.push(end_bit);
+        }
+
+        IR_code.forEach(x => {
+            IR_code_done = [...IR_code_done, ...x];
+        });
+
+        IR_code_done = IR_code_done.toString().split(",").join("    ");
+
+        return IR_code_done;
     }
+
+    static check_IRcode(str, str_check)  {
+        var wrong = [];
+
+        str = str.replace(/  +/g, ' ').split(/ /g).join(",");
+        var arr = str.split(',').map(n => {
+            return Number(n);
+        });
+
+        str_check = str_check.replace(/  +/g, ' ').split(/ /g).join(",");
+        var arr_check = str_check.split(',').map(n => {
+            return Number(n);
+        });
+
+        for (let i = 0; i < str.length; i++) {
+            var pro_check = [];
+            if (arr[i] != arr_check[i] && arr[i] != ',' && arr_check[i] != ',') {
+                pro_check.push(arr[i], arr_check[i], i);
+                wrong.push(pro_check);
+            }
+        }
+        return wrong;
+    }
+
 }
 
 module.exports = IRGatewayManager;
