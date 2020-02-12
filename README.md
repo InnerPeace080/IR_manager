@@ -16,9 +16,9 @@ ACI is api for caculate IRcode for Airconditioner(SHARP and anything AC). Its en
 ```
 ## Setup
 
-```base
+
 This module using [atob](https://www.npmjs.com/package/atob) and [btoa](https://www.npmjs.com/package/btoa) method , so you need to require to your project.
-```
+
 
 ### Example
 
