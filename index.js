@@ -53,6 +53,11 @@ class IRGatewayManager {
                     bits.reverse();
                 return bits.join("");
                 break;
+            case 'H2B':
+                return (parseInt(val, 16).toString(2)).padStart(8, '0');
+                break;
+            case 'B2H':
+                return parseInt(val, 2).toString(16).toUpperCase();
         }
     }
 
@@ -177,8 +182,8 @@ class IRGatewayManager {
 
     //checksum
     static checkSum(arr) {
-        let sum = 1;
-        let sumNum = 0;
+        let sum = 0;
+        let sumNum = 1;
         for (let i = 0; i < arr.length; i++) {
             sum ^= arr[i];
         }
@@ -214,8 +219,19 @@ class IRGatewayManager {
         return bit;
     }
 
+    //get oprA and oprB
+    static getOPT(numHex) {
+        let num_term = IRGatewayManager.convert('H2B', numHex);
+        let bit = [];
+        let opr_A = IRGatewayManager.convert('B2H',num_term.substring(0,4));
+        let opr_B = IRGatewayManager.convert('B2H',num_term.substring(4,num_term.length));
+        bit.push(opr_A,opr_B);
+        return bit;
+    }
+
     //render checksum function
-    static renderChecksum(arr, I_arr) {
+    static renderChecksum(I_arr) {
+        var arr = data_prm[data_prm.length-1];
         let BA_term = [];
         let A = [];
         let B = [];
@@ -479,7 +495,7 @@ class IRGatewayManager {
                 if (B_byte6[i] === 0 && A_byte7[i] === 1) {
                     A_term = C[A[i]];
                     B_term = B[i];
-                    console.log(B_term);
+                    // console.log(B_term);
                     for (let i = A_term; i <= B_term; i++) {
                         term ^= I_arr[i];
                     }
@@ -532,7 +548,8 @@ class IRGatewayManager {
             }
         }
         // return [A, B_byte6 , B, A_byte7, BA, C];
-        return C;
+        // return [BA_term, B, A];
+        return [BA, B_byte6, A_byte7, C];
     }
 
     //array byte 
@@ -694,13 +711,13 @@ class IRGatewayManager {
             IR_code.unshift(hr_bit);
         }
 
-        // //bit middle
-        // if (mod_byte1[1] == 0) {   //bit
-        //     for (let i = 0; i < mod_byte3[1]; i++) {
-        //         mid_bit.push(tb_mapping[0][mod_byte2[1]],tb_mapping[1][mod_byte2[1]]);
-        //     }
-        //     IR_code.unshift(mid_bit);
-        // }
+        //bit middle
+        if (mod_byte1[1] == 0) {   //bit
+            for (let i = 0; i < mod_byte3[1]; i++) {
+                mid_bit.push(tb_mapping[0][mod_byte2[1]],tb_mapping[1][mod_byte2[1]]);
+            }
+            IR_code.unshift(mid_bit);
+        }
         // if (mod_byte1[1] == 1) {   //byte
         //     for (let i = mod_byte2[1]; i < (mod_byte2[1] + mod_byte3[1]); i++) {
         //         mid_bit.push(IR_code[mod_byte2[1]]);
@@ -751,7 +768,11 @@ class IRGatewayManager {
                 wrong.push(pro_check);
             }
         }
-        return wrong;
+        if (wrong.length == 0) {
+            return 'Done';
+        } else {
+            return wrong;
+        }
     }
 
 }
