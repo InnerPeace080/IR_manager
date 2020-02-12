@@ -571,7 +571,11 @@ class IRGatewayManager {
     }
 
     //convertIRCode
-    static convertIRCode(opt, arr) {
+    static convertIRCode(data, map) {
+        var test = IRGatewayManager.getIR_unfix(data_prm);
+        var arr = IRGatewayManager.converArrHexToDec(IRGatewayManager.getArrByte(test, map));
+        arr.push(IRGatewayManager.checkSum(IRGatewayManager.converArrHexToDec(IRGatewayManager.getArrByte(test, map))));
+        var opt = data.m;
         var IR_code = [];
         var IR_code_done = [];
         var tb_mapping = opt.tb;

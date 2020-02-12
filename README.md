@@ -25,7 +25,12 @@ This module using [atob](https://www.npmjs.com/package/atob) and [btoa](https://
 ```javascript
 var atob = require('atob');
 var btoa = require('btoa');
+var fs = require('fs');
 var ir = require('./index');
+
+var rawdata = fs.readFileSync('data.json');
+var data = JSON.parse(rawdata);
+
 
 // convert base64 to buffer array
 const buf = ir.base64toBufferArray("AAECAw==");       //output: [ 0, 1, 2, 3 ]
@@ -34,7 +39,6 @@ const buf = ir.base64toBufferArray("AAECAw==");       //output: [ 0, 1, 2, 3 ]
 const base = ir.BufferArraytoBase64([0, 1, 2, 3]);    //output: 'AAECAw=='
 
 // caculate IRCode
-var data_m = data.m;    
 /*
     "m": {
     "t": 1,
@@ -42,8 +46,8 @@ var data_m = data.m;
     "c": "AAIBAQANAAMB"
     }
 */
-var ByteMap = [170,90,207,16,10,49,34,0,8,128,0,240,177];   //example bytemap
-const IRcode = ir.convertIRCode(data_m, ByteMap);   //output: [[3840,1920],[470,471,470,1400,470,471,470,1400,470,471,470,1400,470,471,470,1400].... ]
+const IRcode = ir.convertIRCode(data, map);   //map example: [27,1,3,0] for mapping
+//output: [[3840,1920],[470,471,470,1400,470,471,470,1400,470,471,470,1400,470,471,470,1400].... ]
 
 ```
 
