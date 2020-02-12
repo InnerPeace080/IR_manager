@@ -17,12 +17,14 @@ ACI is api for caculate IRcode for Airconditioner(SHARP and anything AC). Its en
 ## Setup
 
 ```base
-$ npm install
+This module using [atob](https://www.npmjs.com/package/atob) and [btoa](https://www.npmjs.com/package/btoa) method , so you need to require to your project.
 ```
 
 ### Example
 
 ```javascript
+var atob = require('atob');
+var btoa = require('btoa');
 var ir = require('./index');
 
 // convert base64 to buffer array
