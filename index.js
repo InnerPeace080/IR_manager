@@ -123,6 +123,17 @@ class IRManager {
 
     return this.converArrHexToDec(HEX);
   }
+  base64toUInt16Array(base64) {
+    var rawString = atob(base64);
+    var uint8Array = new Uint8Array(rawString.length);
+    for(var i = 0; i < rawString.length; i++)
+    {
+      uint8Array[i] = rawString.charCodeAt(i);
+    }
+    var uint16Array = new Uint16Array(uint8Array.buffer);
+
+    return uint16Array;
+  }
 
   BufferArraytoBase64(buf) {
     var data = new Uint8Array(buf);
@@ -358,21 +369,21 @@ class IRManager {
   //convertIRCode
   convertIRCode(data, modulation) {
     var IR_code = [];
-    var tb_mapping = modulation.table;
-    var mod = modulation.conv;
+    var tb_mapping = modulation.table||[];
+    var conv = modulation.conv||[];
     var mod_byte1s = [];
     var mod_byte2s = [];
     var mod_byte3s = [];
 
-    for (let i = 0; i < mod.length; i++) {
+    for (let i = 0; i < conv.length; i++) {
       if (i % 3 == 0) {
-        mod_byte1s.push(mod[i]);
+        mod_byte1s.push(conv[i]);
       }
       if (i % 3 == 1) {
-        mod_byte2s.push(mod[i]);
+        mod_byte2s.push(conv[i]);
       }
       if (i % 3 == 2) {
-        mod_byte3s.push(mod[i]);
+        mod_byte3s.push(conv[i]);
       }
     }
     var oldArr = this.convertArrDecToBinary(data);
@@ -441,6 +452,48 @@ class IRManager {
     });
 
     return IR_code;
+  }
+
+  convertBase64Obj2Array(transport={}){
+    transport=transport||{};
+    var retTransport={
+      byteMap: [],
+      modulation: {
+        type: 1,
+        table: ['', ''],
+        conv: ''
+      }
+    };
+    if(transport.byteMap){
+      transport.byteMap.forEach((c, i)=>{
+        if(typeof(c)==='number'){
+          retTransport.byteMap[i]=c;
+        }else{
+          retTransport.byteMap[i]={};
+          if(c.input){
+            retTransport.byteMap[i].input = [];
+            c.input.forEach((c2, i2)=>{
+              retTransport.byteMap[i].input[i2]={};
+              retTransport.byteMap[i].input[i2].name=c2.name;
+              if(c2.opt) {retTransport.byteMap[i].input[i2].opt= this.base64toBufferArray(c2.opt) ;}
+              if(c2.mapping) {
+                retTransport.byteMap[i].input[i2].mapping=[this.base64toBufferArray(c2.mapping[0]), this.base64toBufferArray(c2.mapping[1])];
+              }
+            });
+          }
+          if(c.opt){
+            retTransport.byteMap[i].opt=this.base64toBufferArray(c.opt);
+          }
+        }
+      });
+    }
+    if(transport.modulation && transport.modulation.table){
+      retTransport.modulation.type=transport.modulation.type;
+      retTransport.modulation.table=[this.base64toUInt16Array(transport.modulation.table[0]), this.base64toUInt16Array(transport.modulation.table[1])];
+      retTransport.modulation.conv=this.base64toBufferArray(transport.modulation.conv) ;
+    }
+
+    return retTransport;
   }
 
   check_IRcode(str, str_check) {
