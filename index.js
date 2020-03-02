@@ -4,7 +4,7 @@ const atob = require('atob');
 const btoa = require('btoa');
 
 // 1 byte cao:  4 bit for type A , 4 bit for type B
-const TYPEs = {
+const VAR_TYPE = {
   I_x: 0,
   C_x: 1,
   V_x: 2,
@@ -24,7 +24,7 @@ const TYPEs = {
 };
 
 // define Ma lenh: 1 byte
-const OPTs = {
+const OPT_TYPE = {
   SETA: 0,
   SETB: 1,
   ADD: 2,
@@ -144,43 +144,43 @@ class IRManager {
 
   getABValue(x, type, I, C, V){
     switch (type) {
-      case TYPEs.I_x: return I[x];
-      case TYPEs.C_x: return C[x];
-      case TYPEs.V_x: return V[x];
-      case TYPEs.xxx: return x;
-      case TYPEs.I_C_x: return I[C[x]];
-      case TYPEs.I_V_x: return I[V[x]];
-      case TYPEs.I_C_V_x: return I[C[V[x]]];
-      case TYPEs.I_V_C_x: return I[V[C[x]]];
-      case TYPEs.C_V_x: return C[V[x]];
-      case TYPEs.C_I_x: return C[I[x]];
-      case TYPEs.C_V_I_x: return C[V[I[x]]];
-      case TYPEs.C_I_V_x: return C[I[V[x]]];
-      case TYPEs.V_C_x: return V[C[x]];
-      case TYPEs.V_I_x: return V[I[x]];
-      case TYPEs.V_C_I_x: return V[C[I[x]]];
-      case TYPEs.V_I_C_x: return V[I[C[x]]];
+      case VAR_TYPE.I_x: return I[x];
+      case VAR_TYPE.C_x: return C[x];
+      case VAR_TYPE.V_x: return V[x];
+      case VAR_TYPE.xxx: return x;
+      case VAR_TYPE.I_C_x: return I[C[x]];
+      case VAR_TYPE.I_V_x: return I[V[x]];
+      case VAR_TYPE.I_C_V_x: return I[C[V[x]]];
+      case VAR_TYPE.I_V_C_x: return I[V[C[x]]];
+      case VAR_TYPE.C_V_x: return C[V[x]];
+      case VAR_TYPE.C_I_x: return C[I[x]];
+      case VAR_TYPE.C_V_I_x: return C[V[I[x]]];
+      case VAR_TYPE.C_I_V_x: return C[I[V[x]]];
+      case VAR_TYPE.V_C_x: return V[C[x]];
+      case VAR_TYPE.V_I_x: return V[I[x]];
+      case VAR_TYPE.V_C_I_x: return V[C[I[x]]];
+      case VAR_TYPE.V_I_C_x: return V[I[C[x]]];
       default: return x;
     }
   }
   setABValue(x, type, I, C, V, value){
     switch (type) {
-      case TYPEs.I_x: I[x]=value;break;
-      case TYPEs.C_x: C[x]=value;break;
-      case TYPEs.V_x: V[x]=value;break;
+      case VAR_TYPE.I_x: I[x]=value;break;
+      case VAR_TYPE.C_x: C[x]=value;break;
+      case VAR_TYPE.V_x: V[x]=value;break;
       // case 3: x;
-      case TYPEs.I_C_x: I[C[x]]=value;break;
-      case TYPEs.I_V_x: I[V[x]]=value;break;
-      case TYPEs.I_C_V_x: I[C[V[x]]]=value;break;
-      case TYPEs.I_V_C_x: I[V[C[x]]]=value;break;
-      case TYPEs.C_V_x: C[V[x]]=value;break;
-      case TYPEs.C_I_x: C[I[x]]=value;break;
-      case TYPEs.C_V_I_x: C[V[I[x]]]=value;break;
-      case TYPEs.C_I_V_x: C[I[V[x]]]=value;break;
-      case TYPEs.V_C_x: V[C[x]]=value;break;
-      case TYPEs.V_I_x: V[I[x]]=value;break;
-      case TYPEs.V_C_I_x: V[C[I[x]]]=value;break;
-      case TYPEs.V_I_C_x: V[I[C[x]]]=value;break;
+      case VAR_TYPE.I_C_x: I[C[x]]=value;break;
+      case VAR_TYPE.I_V_x: I[V[x]]=value;break;
+      case VAR_TYPE.I_C_V_x: I[C[V[x]]]=value;break;
+      case VAR_TYPE.I_V_C_x: I[V[C[x]]]=value;break;
+      case VAR_TYPE.C_V_x: C[V[x]]=value;break;
+      case VAR_TYPE.C_I_x: C[I[x]]=value;break;
+      case VAR_TYPE.C_V_I_x: C[V[I[x]]]=value;break;
+      case VAR_TYPE.C_I_V_x: C[I[V[x]]]=value;break;
+      case VAR_TYPE.V_C_x: V[C[x]]=value;break;
+      case VAR_TYPE.V_I_x: V[I[x]]=value;break;
+      case VAR_TYPE.V_C_I_x: V[C[I[x]]]=value;break;
+      case VAR_TYPE.V_I_C_x: V[I[C[x]]]=value;break;
       default:
     }
   }
@@ -188,19 +188,19 @@ class IRManager {
   //logical
   logicalFunc(num, x, y) {
     switch(num) {
-      case OPTs.ADD:
+      case OPT_TYPE.ADD:
         return x + y; //ADD
-      case OPTs.SUB:
+      case OPT_TYPE.SUB:
         return x - y; //SUB
-      case OPTs.AND:
+      case OPT_TYPE.AND:
         return x & y; //AND
-      case OPTs.OR:
+      case OPT_TYPE.OR:
         return x | y; //OR
-      case OPTs.XOR:
+      case OPT_TYPE.XOR:
         return x ^ y; //XOR
-      case OPTs.SHIFT_R:
+      case OPT_TYPE.SHIFT_R:
         return x >> y; //right shift
-      case OPTs.SHIFT_L:
+      case OPT_TYPE.SHIFT_L:
         return x << y; //left shift
       default:
     }
@@ -227,15 +227,15 @@ class IRManager {
     }
     var findENDIF=false;
     for (let i = 0; i < OPT_type.length; i++) {
-      if(findENDIF&&OPT_type[i]!==OPTs.ENDIF){continue;}
+      if(findENDIF&&OPT_type[i]!==OPT_TYPE.ENDIF){continue;}
       let AVal = this.getABValue(A[i], A_type[i], I, C, V);
       let BVal = this.getABValue(B[i], B_type[i], I, C, V);
       switch (OPT_type[i]) {
-        case OPTs.SETA:
+        case OPT_TYPE.SETA:
           this.setABValue(B[i], B_type[i], I, C, V, AVal);
           C[i] = AVal;
           break;
-        case OPTs.SETB:
+        case OPT_TYPE.SETB:
           this.setABValue(A[i], A_type[i], I, C, V, BVal);
           C[i] = BVal;
           break;
@@ -243,62 +243,62 @@ class IRManager {
         case 6:case 7:case 8:case 9:
           C[i]=this.logicalFunc(OPT_type[i], AVal, BVal);
           break;
-        case OPTs.INVA:
+        case OPT_TYPE.INVA:
           this.setABValue(B[i], B_type[i], I, C, V, AVal^0xFF);
           C[i]=AVal^0xFF;
           break;
-        case OPTs.INVB:
+        case OPT_TYPE.INVB:
           this.setABValue(A[i], A_type[i], I, C, V, BVal^0xFF);
           C[i]=BVal^0xFF;
           break;
-        case OPTs.INCA:
+        case OPT_TYPE.INCA:
           this.setABValue(B[i], B_type[i], I, C, V, AVal+1);
           C[i]=AVal+1;
           break;
-        case OPTs.INCB:
+        case OPT_TYPE.INCB:
           this.setABValue(A[i], A_type[i], I, C, V, BVal+1);
           C[i]=BVal+1;
           break;
-        case OPTs.IFE:
+        case OPT_TYPE.IFE:
           if(AVal === BVal){
           }else{
             findENDIF=true;
           }
           break;
-        case OPTs.IFNE:
+        case OPT_TYPE.IFNE:
           if(AVal !== BVal){
           }else{
             findENDIF=true;
           }
           break;
-        case OPTs.IFG:
+        case OPT_TYPE.IFG:
           if(AVal > BVal){
           }else{
             findENDIF=true;
           }
           break;
-        case OPTs.IFL:
+        case OPT_TYPE.IFL:
           if(AVal < BVal){
           }else{
             findENDIF=true;
           }
           break;
-        case OPTs.IFGE:
+        case OPT_TYPE.IFGE:
           if(AVal >= BVal){
           }else{
             findENDIF=true;
           }
           break;
-        case OPTs.IFLE:
+        case OPT_TYPE.IFLE:
           if(AVal <= BVal){
           }else{
             findENDIF=true;
           }
           break;
-        case OPTs.ENDIF:
+        case OPT_TYPE.ENDIF:
           findENDIF=false;
           break;
-        case OPTs.JUMP:
+        case OPT_TYPE.JUMP:
           i=AVal-1;
           continue;
         default:
@@ -479,8 +479,8 @@ class IRManager {
 }
 
 module.exports = {
-  TYPEs,
-  OPTs,
+  VAR_TYPE,
+  OPT_TYPE,
   MODULATION_TYPE,
   IRManager: new IRManager()
 };
