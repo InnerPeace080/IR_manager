@@ -358,7 +358,6 @@ class IRManager {
   //convertIRCode
   convertIRCode(data, modulation) {
     var IR_code = [];
-    var IR_code_done = [];
     var tb_mapping = modulation.table;
     var mod = modulation.conv;
     var mod_byte1s = [];
@@ -441,10 +440,7 @@ class IRManager {
       }
     });
 
-    IR_code_done = IR_code.toString().split(',')
-      .join('    ');
-
-    return IR_code_done;
+    return IR_code;
   }
 
   check_IRcode(str, str_check) {

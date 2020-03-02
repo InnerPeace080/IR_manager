@@ -98,8 +98,10 @@ var values = {
 console.log(IRManager.processData2Send(transport.byteMap, values));
 // console.log(IRManager.convertIRCode(IRManager.processData2Send(transport.byteMap, values), transport.modulation ) );
 
-var ret = IRManager.check_IRcode(IRManager.convertIRCode(IRManager.processData2Send(transport.byteMap, values), transport.modulation ),
-  '3840   1920    470    471    470   1400    470    471    470   1400    470    471 \
+var ret = IRManager.check_IRcode(IRManager.convertIRCode(IRManager.processData2Send(transport.byteMap, values), transport.modulation ).toString()
+  .split(',')
+  .join('    '),
+'3840   1920    470    471    470   1400    470    471    470   1400    470    471 \
 470   1400    470    471    470   1400    470    471    470   1400    470    471 \
 470   1400    470   1400    470    471    470   1400    470    471    470   1400 \
 470   1400    470   1400    470   1400    470    471    470    471    470   1400 \
