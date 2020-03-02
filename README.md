@@ -23,32 +23,53 @@ This module using [atob](https://www.npmjs.com/package/atob) and [btoa](https://
 ### Example
 
 ```javascript
-var atob = require('atob');
-var btoa = require('btoa');
-var fs = require('fs');
-var ir = require('./index');
+const {TYPEs, OPTs, IRManager} = require('IR_manager');
 
-var rawdata = fs.readFileSync('data.json');
-var data = JSON.parse(rawdata);
+var transport2 = {
+  byteMap: [170, 90, 207, 16, {
+    input: [{
+      name: 'tem',
+      mapping: ['EhMUFRYXGBkaGxwdHg==', 'AQIDBAUGBwgJCgsMDQ==']
+    }]
+  }, {
+    input: [{
+      name: 'pwr',
+      mapping: ['AAE=', 'ITE=']
+    }]
+  }, {
+    input: [{
+      name: 'mod',
+      mapping: ['AQIDBAU=', 'AAECAwQ=']
+    }, {
+      name: 'fan',
+      mapping: ['AAECAw==', 'IDBQcA==']
+    }],
+    opt: 'AAUAAQ=='
+  }, 0, 8, 128, 0, 240, {
+    opt: 'MgAAADIAAAElBwABEgACACIVAQEjEAEMMxMCADMUAAAjBwABIwgABBEHCAkTBAoPEwkLBBMFDAE='
+  }],
+  modulation: {
+    type: 1,
+    table: ['1gHWAQAP1gE=', '1wF4BYAHAAA='],
+    conv: 'AAIBAQANAAMB'
+  }
+};
 
+var values = {
+  pwr: 0,
+  mod: 3,
+  fan: 3,
+  tem: 24,
+  swV: 0,
+  swH: 0
+};
 
-// convert base64 to buffer array
-const buf = ir.base64toBufferArray("AAECAw==");       //output: [ 0, 1, 2, 3 ]
+var transportArr=IRManager.convertBase64Obj2Array(transport2);
 
-// convert buffer array to base64
-const base = ir.BufferArraytoBase64([0, 1, 2, 3]);    //output: 'AAECAw=='
+var data2Send = IRManager.processData2Send(transportArr.byteMap, values)
 
-// caculate IRCode
-/*
-    "m": {
-    "t": 1,
-    "tb": ["1gHWAQAP1gE=", "1wF4BYAHAAA="],
-    "c": "AAIBAQANAAMB"
-    }
-*/
-const IRcode = ir.convertIRCode(data, map);   //map example: [27,1,3,0] for mapping
-//output: [[3840,1920],[470,471,470,1400,470,471,470,1400,470,471,470,1400,470,471,470,1400].... ]
+var pulseArray = IRManager.convertIRCode(data2Send, transportArr.modulation )
+
+console.log(IRManager.uInt16ArraytoBase64(pulseArray))
 
 ```
-
-

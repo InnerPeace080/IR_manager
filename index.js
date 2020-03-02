@@ -144,6 +144,21 @@ class IRManager {
     return btoa(binstr);
   }
 
+  uInt16ArraytoBase64(buf) {
+    var data = new Uint16Array(buf);
+    var dataArray=[];
+    for (let i = 0; i < data.length; ++i){
+      dataArray.push(data[i]>>8);
+      dataArray.push(data[i]&0x00FF);
+    }
+    dataArray= new Uint8Array(dataArray);
+    var binstr = Array.prototype.map.call(dataArray, (ch) => {
+      return String.fromCharCode(ch);
+    }).join('');
+
+    return btoa(binstr);
+  }
+
   //Get param
   checkBit(n) {
     if (n !== 0) {

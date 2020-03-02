@@ -134,3 +134,7 @@ var ret = IRManager.check_IRcode(IRManager.convertIRCode(IRManager.processData2S
 470   1400    470    471    470    471    470  0');
 
 console.log('ret', ret);
+
+// var pulseArray = IRManager.convertIRCode(IRManager.processData2Send(transportArr.byteMap, values), transportArr.modulation );
+// console.log('pulseArray', pulseArray);
+// console.log(IRManager.uInt16ArraytoBase64(pulseArray));
