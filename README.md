@@ -4,8 +4,7 @@ ACI is api for caculate IRcode for Airconditioner(SHARP and anything AC). Its en
 
 ## Getting started
 
-- Install [Node.js](https://nodejs.org/download/)
-- clone source form [github](https://github.com/MinhWalker/IR_manager)
+- yarn add git+https://github.com/InnerPeace080/IR_manager.git
 
 ## Options
 
