@@ -22,7 +22,7 @@ This module using [atob](https://www.npmjs.com/package/atob) and [btoa](https://
 ### Example
 
 ```javascript
-const {TYPEs, OPTs, IRManager} = require('IR_manager');
+const {VAR_TYPE, OPT_TYPE, IRManager} = require('IR_manager');
 
 var transport2 = {
   byteMap: [170, 90, 207, 16, {
