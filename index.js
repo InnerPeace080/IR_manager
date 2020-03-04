@@ -384,7 +384,6 @@ class IRManager {
         var oprA = this.detectOpr(optCodes[1].trim());
         var oprB = this.detectOpr(optCodes[2].trim());
         if (OPT_TYPE[opt] !== undefined && oprA !== undefined && oprB !== undefined) {
-          console.log(oprA.type, oprB.type);
           result.push((oprA.type<<4)|(oprB.type));
           result.push(OPT_TYPE[opt]);
           result.push(oprA.number);

@@ -59,20 +59,7 @@ var transport = {
   }
 };
 
-var temp1 =IRManager.decodeOpt([50, 0, 0, 0,
-  50, 0, 0, 1,
-  37, 7, 0, 1,
-  18, 0, 2, 0,
-  34, 21, 1, 1,
-  35, 16, 1, 12,
-  51, 19, 2, 0,
-  51, 20, 0, 0,
-  35, 7, 0, 1,
-  35, 8, 0, 4,
-  17, 7, 8, 9,
-  19, 4, 10, 15,
-  19, 9, 11, 4,
-  19, 5, 12, 1]);
+var temp1 =IRManager.decodeOpt(IRManager.base64toBufferArray('gQAAigALhwEBiAIEBwIDhAQPiQUEhQYB'));
 
 console.log(temp1);
 
