@@ -372,12 +372,12 @@ class IRManager {
   encodeOpt(stringOpt){
     var lineCodes = stringOpt.split('\n');
     var result = [];
-    var errorLine = 0;
+    var errorLine;
     for (let i = 0; i < lineCodes.length; i++) {
       if(!lineCodes[i].trim()){continue;}
       var optCodes = lineCodes[i].trim().split(' ');
       if (optCodes.length !== 3) {
-        errorLine = i + 1;
+        errorLine = i ;
         break;
       } else {
         var opt = optCodes[0].trim();
@@ -390,13 +390,13 @@ class IRManager {
           result.push(oprB.number);
           continue;
         } else {
-          errorLine = i + 1;
+          errorLine = i;
           break;
         }
       }
     }
 
-    if (errorLine) {
+    if (errorLine!==undefined) {
       return {
         errorItem: errorLine
       };
