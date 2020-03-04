@@ -8,7 +8,7 @@ const VAR_TYPE = {
   I: 0,
   C: 1,
   V: 2,
-  xxx: 3,
+  '': 3,
   IC: 4,
   IV: 5,
   ICV: 6,
@@ -22,6 +22,11 @@ const VAR_TYPE = {
   VCI: 14,
   VIC: 15
 };
+const VAR_TYPE_INV = Object.keys(VAR_TYPE).map((c)=>[c, VAR_TYPE[c]])
+  .sort((a, b) => {
+    return a[1] - b[1];
+  })
+  .map((c)=>c[0]);
 
 // define Ma lenh: 1 byte
 const OPT_TYPE = {
@@ -49,6 +54,12 @@ const OPT_TYPE = {
   INCA: 21,
   INCB: 22
 };
+
+const OPT_TYPE_INV = Object.keys(OPT_TYPE).map((c)=>[c, OPT_TYPE[c]])
+  .sort((a, b) => {
+    return a[1] - b[1];
+  })
+  .map((c)=>c[0]);
 
 const MODULATION_TYPE={
   LSB: 0,
@@ -336,6 +347,93 @@ class IRManager {
     return ret;
   }
 
+  detectOpr(str) {
+    if (!isNaN(Number(str))) {
+      return {
+        number: Number(str),
+        type: VAR_TYPE['']
+      };
+    }
+    if (!str.match(/^[ICV]+[0-9]+$/)) {
+      return undefined;
+    }
+    const varType = str.match(/^[ICV]+/)[0];
+    const varVal = str.match(/[0-9]+$/)[0];
+    if (VAR_TYPE[varType] !== undefined) {
+      return {
+        number: Number(varVal),
+        type: VAR_TYPE[varType]
+      };
+    } else {
+      return undefined;
+    }
+  }
+
+  encodeOpt(stringOpt){
+    var lineCodes = stringOpt.split('\n');
+    var result = [];
+    var errorLine = 0;
+    for (let i = 0; i < lineCodes.length; i++) {
+      if(!lineCodes[i].trim()){continue;}
+      var optCodes = lineCodes[i].trim().split(' ');
+      if (optCodes.length !== 3) {
+        errorLine = i + 1;
+        break;
+      } else {
+        var opt = optCodes[0].trim();
+        var oprA = this.detectOpr(optCodes[1].trim());
+        var oprB = this.detectOpr(optCodes[2].trim());
+        if (OPT_TYPE[opt] !== undefined && oprA !== undefined && oprB !== undefined) {
+          console.log(oprA.type, oprB.type);
+          result.push((oprA.type<<4)|(oprB.type));
+          result.push(OPT_TYPE[opt]);
+          result.push(oprA.number);
+          result.push(oprB.number);
+          continue;
+        } else {
+          errorLine = i + 1;
+          break;
+        }
+      }
+    }
+
+    if (errorLine) {
+      return {
+        errorItem: errorLine
+      };
+    } else {
+      return {
+        opts: result,
+        errorItem: errorLine
+      };
+    }
+  }
+
+  decodeOpt(arrayOpt){
+    let A_type = [];
+    let B_type = [];
+    let OPT_type = [];
+    let A = [];let B = [];
+    let ret = '';
+    for (let i = 0; i < arrayOpt.length; i++) {
+      if (i % 4 === 0) {
+        A_type.push((arrayOpt[i]&0xF0)>>4);
+        B_type.push(arrayOpt[i]&0x0F);
+      }else if (i % 4 === 1) {
+        OPT_type.push(arrayOpt[i]);
+      }else if (i % 4 === 2) {
+        A.push(arrayOpt[i]);
+      }else if (i % 4 === 3) {
+        B.push(arrayOpt[i]);
+      }
+    }
+    for (let i = 0; i < OPT_type.length; i++) {
+      ret += `${OPT_TYPE_INV[OPT_type[i]]} ${VAR_TYPE_INV[A_type[i]]}${A[i]} ${VAR_TYPE_INV[B_type[i]]}${B[i]}\n`;
+    }
+
+    return ret;
+  }
+
   processByte(info, values){
     var I=[];
     //process Input
@@ -543,8 +641,8 @@ class IRManager {
 }
 
 module.exports = {
-  VAR_TYPE,
-  OPT_TYPE,
+  VAR_TYPE, VAR_TYPE_INV,
+  OPT_TYPE, OPT_TYPE_INV,
   MODULATION_TYPE,
   IRManager: new IRManager()
 };
