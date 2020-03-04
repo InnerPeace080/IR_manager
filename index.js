@@ -5,22 +5,22 @@ const btoa = require('btoa');
 
 // 1 byte cao:  4 bit for type A , 4 bit for type B
 const VAR_TYPE = {
-  I_x: 0,
-  C_x: 1,
-  V_x: 2,
+  I: 0,
+  C: 1,
+  V: 2,
   xxx: 3,
-  I_C_x: 4,
-  I_V_x: 5,
-  I_C_V_x: 6,
-  I_V_C_x: 7,
-  C_V_x: 8,
-  C_I_x: 9,
-  C_V_I_x: 10,
-  C_I_V_x: 11,
-  V_C_x: 12,
-  V_I_x: 13,
-  V_C_I_x: 14,
-  V_I_C_x: 15
+  IC: 4,
+  IV: 5,
+  ICV: 6,
+  IVC: 7,
+  CV: 8,
+  CI: 9,
+  CVI: 10,
+  CIV: 11,
+  VC: 12,
+  VI: 13,
+  VCI: 14,
+  VIC: 15
 };
 
 // define Ma lenh: 1 byte
@@ -170,43 +170,43 @@ class IRManager {
 
   getABValue(x, type, I, C, V){
     switch (type) {
-      case VAR_TYPE.I_x: return I[x];
-      case VAR_TYPE.C_x: return C[x];
-      case VAR_TYPE.V_x: return V[x];
+      case VAR_TYPE.I: return I[x];
+      case VAR_TYPE.C: return C[x];
+      case VAR_TYPE.V: return V[x];
       case VAR_TYPE.xxx: return x;
-      case VAR_TYPE.I_C_x: return I[C[x]];
-      case VAR_TYPE.I_V_x: return I[V[x]];
-      case VAR_TYPE.I_C_V_x: return I[C[V[x]]];
-      case VAR_TYPE.I_V_C_x: return I[V[C[x]]];
-      case VAR_TYPE.C_V_x: return C[V[x]];
-      case VAR_TYPE.C_I_x: return C[I[x]];
-      case VAR_TYPE.C_V_I_x: return C[V[I[x]]];
-      case VAR_TYPE.C_I_V_x: return C[I[V[x]]];
-      case VAR_TYPE.V_C_x: return V[C[x]];
-      case VAR_TYPE.V_I_x: return V[I[x]];
-      case VAR_TYPE.V_C_I_x: return V[C[I[x]]];
-      case VAR_TYPE.V_I_C_x: return V[I[C[x]]];
+      case VAR_TYPE.IC: return I[C[x]];
+      case VAR_TYPE.IV: return I[V[x]];
+      case VAR_TYPE.ICV: return I[C[V[x]]];
+      case VAR_TYPE.IVC: return I[V[C[x]]];
+      case VAR_TYPE.CV: return C[V[x]];
+      case VAR_TYPE.CI: return C[I[x]];
+      case VAR_TYPE.CVI: return C[V[I[x]]];
+      case VAR_TYPE.CIV: return C[I[V[x]]];
+      case VAR_TYPE.VC: return V[C[x]];
+      case VAR_TYPE.VI: return V[I[x]];
+      case VAR_TYPE.VCI: return V[C[I[x]]];
+      case VAR_TYPE.VIC: return V[I[C[x]]];
       default: return x;
     }
   }
   setABValue(x, type, I, C, V, value){
     switch (type) {
-      case VAR_TYPE.I_x: I[x]=value;break;
-      case VAR_TYPE.C_x: C[x]=value;break;
-      case VAR_TYPE.V_x: V[x]=value;break;
+      case VAR_TYPE.I: I[x]=value;break;
+      case VAR_TYPE.C: C[x]=value;break;
+      case VAR_TYPE.V: V[x]=value;break;
       // case 3: x;
-      case VAR_TYPE.I_C_x: I[C[x]]=value;break;
-      case VAR_TYPE.I_V_x: I[V[x]]=value;break;
-      case VAR_TYPE.I_C_V_x: I[C[V[x]]]=value;break;
-      case VAR_TYPE.I_V_C_x: I[V[C[x]]]=value;break;
-      case VAR_TYPE.C_V_x: C[V[x]]=value;break;
-      case VAR_TYPE.C_I_x: C[I[x]]=value;break;
-      case VAR_TYPE.C_V_I_x: C[V[I[x]]]=value;break;
-      case VAR_TYPE.C_I_V_x: C[I[V[x]]]=value;break;
-      case VAR_TYPE.V_C_x: V[C[x]]=value;break;
-      case VAR_TYPE.V_I_x: V[I[x]]=value;break;
-      case VAR_TYPE.V_C_I_x: V[C[I[x]]]=value;break;
-      case VAR_TYPE.V_I_C_x: V[I[C[x]]]=value;break;
+      case VAR_TYPE.IC: I[C[x]]=value;break;
+      case VAR_TYPE.IV: I[V[x]]=value;break;
+      case VAR_TYPE.ICV: I[C[V[x]]]=value;break;
+      case VAR_TYPE.IVC: I[V[C[x]]]=value;break;
+      case VAR_TYPE.CV: C[V[x]]=value;break;
+      case VAR_TYPE.CI: C[I[x]]=value;break;
+      case VAR_TYPE.CVI: C[V[I[x]]]=value;break;
+      case VAR_TYPE.CIV: C[I[V[x]]]=value;break;
+      case VAR_TYPE.VC: V[C[x]]=value;break;
+      case VAR_TYPE.VI: V[I[x]]=value;break;
+      case VAR_TYPE.VCI: V[C[I[x]]]=value;break;
+      case VAR_TYPE.VIC: V[I[C[x]]]=value;break;
       default:
     }
   }
