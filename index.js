@@ -375,7 +375,7 @@ class IRManager {
     var errorLine;
     for (let i = 0; i < lineCodes.length; i++) {
       if(!lineCodes[i].trim()){continue;}
-      var optCodes = lineCodes[i].trim().split(' ');
+      var optCodes = lineCodes[i].trim().split(/\s+/);
       if (optCodes.length !== 3) {
         errorLine = i ;
         break;
@@ -427,7 +427,7 @@ class IRManager {
       }
     }
     for (let i = 0; i < OPT_type.length; i++) {
-      ret += `${OPT_TYPE_INV[OPT_type[i]]} ${VAR_TYPE_INV[A_type[i]]}${A[i]} ${VAR_TYPE_INV[B_type[i]]}${B[i]}\n`;
+      ret += `${`${OPT_TYPE_INV[OPT_type[i]]||'UNKNOW'}`.padEnd( 8, ' ')} ${`${VAR_TYPE_INV[A_type[i]]}${A[i]}`.padEnd( 8, ' ')} ${`${VAR_TYPE_INV[B_type[i]]}${B[i]}`.padEnd(8, ' ')}\n`;
     }
 
     return ret;
