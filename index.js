@@ -427,7 +427,7 @@ class IRManager {
       }
     }
     for (let i = 0; i < OPT_type.length; i++) {
-      ret += `${`${OPT_TYPE_INV[OPT_type[i]]||'UNKNOW'}`.padEnd( 8, ' ')} ${`${VAR_TYPE_INV[A_type[i]]}${A[i]}`.padEnd( 8, ' ')} ${`${VAR_TYPE_INV[B_type[i]]}${B[i]}`.padEnd(8, ' ')}\n`;
+      ret += `${`${OPT_TYPE_INV[OPT_type[i]]||'UNKNOW'}`.padEnd( 8, ' ')} ${`${VAR_TYPE_INV[A_type[i]]}${A[i]}`.padEnd( 6, ' ')} ${`${VAR_TYPE_INV[B_type[i]]}${B[i]}`.padEnd(6, ' ')}\n`;
     }
 
     return ret;
