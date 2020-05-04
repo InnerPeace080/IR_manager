@@ -344,7 +344,7 @@ class IRManager {
       if(C[i]!==undefined) {ret=C[i];}
     }
 
-    return ret;
+    return (ret&0xFF);
   }
 
   detectOpr(str) {
