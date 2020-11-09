@@ -1,3 +1,5 @@
+/*eslint-disable no-console*/
+
 const {TYPEs, OPTs, IRManager} = require('./index.js');
 
 // var transport = {
