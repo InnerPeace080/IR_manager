@@ -181,22 +181,22 @@ class IRManager {
 
   getABValue(x, type, I, C, V){
     switch (type) {
-      case VAR_TYPE.I: return I[x];
+      case VAR_TYPE.I: return I[x]||0;
       case VAR_TYPE.C: return C[x];
       case VAR_TYPE.V: return V[x]||0;
       case VAR_TYPE.xxx: return x;
-      case VAR_TYPE.IC: return I[C[x]];
-      case VAR_TYPE.IV: return I[V[x]||0];
-      case VAR_TYPE.ICV: return I[C[V[x]||0]];
-      case VAR_TYPE.IVC: return I[V[C[x]]];
+      case VAR_TYPE.IC: return I[C[x]]||0;
+      case VAR_TYPE.IV: return I[V[x]||0]||0;
+      case VAR_TYPE.ICV: return I[C[V[x]||0]]||0;
+      case VAR_TYPE.IVC: return I[V[C[x]]]||0;
       case VAR_TYPE.CV: return C[V[x]||0];
-      case VAR_TYPE.CI: return C[I[x]];
-      case VAR_TYPE.CVI: return C[V[I[x]]||0];
-      case VAR_TYPE.CIV: return C[I[V[x]||0]];
+      case VAR_TYPE.CI: return C[I[x]||0];
+      case VAR_TYPE.CVI: return C[V[I[x]||0]||0];
+      case VAR_TYPE.CIV: return C[I[V[x]||0]||0];
       case VAR_TYPE.VC: return V[C[x]]||0;
-      case VAR_TYPE.VI: return V[I[x]]||0;
-      case VAR_TYPE.VCI: return V[C[I[x]]]||0;
-      case VAR_TYPE.VIC: return V[I[C[x]]]||0;
+      case VAR_TYPE.VI: return V[I[x]||0]||0;
+      case VAR_TYPE.VCI: return V[C[I[x]||0]]||0;
+      case VAR_TYPE.VIC: return V[I[C[x]]||0]||0;
       default: return x;
     }
   }
