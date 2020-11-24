@@ -168,7 +168,7 @@ var transport2 = {
 
 var values = {
   pwr: 1, mod: 3, mode: 3, fan: 0,
-  tem: 26, swv: 4, swh: 2, btn: 1
+  tem: 26, swv: 4, swh: 2, //btn: 1
 };
 
 // results
