@@ -436,7 +436,7 @@ class IRManager {
   processByte(info, values){
     var I=[];
     //process Input
-    if(info.input){
+    if(info.input&&info.input.length>0){
       info.input.forEach((c, i)=>{
         let name=c.name;
         let value = values[name];
@@ -582,7 +582,7 @@ class IRManager {
           retTransport.byteMap[i]=c;
         }else{
           retTransport.byteMap[i]={};
-          if(c.input){
+          if(c.input&&c.input.length>0){
             retTransport.byteMap[i].input = [];
             c.input.forEach((c2, i2)=>{
               retTransport.byteMap[i].input[i2]={};
