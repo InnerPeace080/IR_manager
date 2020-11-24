@@ -439,7 +439,7 @@ class IRManager {
     if(info.input&&info.input.length>0){
       info.input.forEach((c, i)=>{
         let name=c.name;
-        let value = values[name];
+        let value = values[name]||0;
         if(c.mapping){
           let inArr = c.mapping[0];
           let outArr = c.mapping[1];
