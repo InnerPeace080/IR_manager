@@ -68,7 +68,7 @@ const MODULATION_TYPE={
 };
 
 class IRManager {
-  convert(op, val) {
+  convert(op, val=0) {
     switch(op) {
       case 'D2H':
         if (val < 0) {
@@ -117,7 +117,7 @@ class IRManager {
 
   convertArrDecToBinary(arr) {
     let oldArr = arr.map((x) => {
-      return this.convert('D2B', x);
+      return this.convert('D2B', x||0);
     });
 
     return oldArr;
