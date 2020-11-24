@@ -69,86 +69,106 @@ const {TYPEs, OPTs, IRManager} = require('./index.js');
 
 var transport2 = {
   modulation: {
-    type: 1,
     table: [
-      'pAGkAawNpAGkAQ==',
-      '1gFGBQgHECcAAA=='
+      'fAF8Ac4TfAF8AQ==',
+      'sgLgBkgIPHMAAA=='
     ],
-    conv: 'AAIBAQAIAAMBAAIBAQgTAAQB'
+    type: 1,
+    conv: 'AAIBAQAHAAMBAAIBAQcPAAQB'
   },
   byteMap: [
-    2, 32, 224, 4, 0, 0, 0, 6, 2, 32, 224, 4, 0,
     {
       input: [
         {
           name: 'mod',
           mapping: [
-            'AQIDBA==',
-            'AEAwIA=='
+            'AQIDBAU=',
+            'c3NzI2M='
+          ]
+        }
+      ]
+    },
+    {
+      input: [
+        {
+          name: 'btn',
+          mapping: [
+            'AAECAwQF',
+            'AAQAAAAA'
+          ]
+        }
+      ]
+    },
+    {
+      input: [
+        {
+          name: 'mod',
+          mapping: [
+            'AQIDBAU=',
+            'AgICBwA='
           ]
         },
         {
           name: 'pwr',
           mapping: [
             'AAE=',
-            'CAk='
+            'AAE='
           ]
         }
       ],
-      opt: 'AAUAAQ=='
+      opt: 'AwkABBAFAAE='
     },
+    0,
+    0,
     {
       input: [
         {
           name: 'tem',
           mapping: [
-            'EBESExQVFhcYGRobHB0e',
-            'ICIkJigqLC4wMjQ2ODo8'
+            'EBESExQVFhcYGRobHB0eHyA=',
+            'DhASFBYYGhweICIkJigqLC4='
+          ]
+        },
+        {
+          name: 'mod',
+          mapping: [
+            'AQIDBAU=',
+            'AQEBAAA='
           ]
         }
-      ]
+      ],
+      opt: 'AgAAAAMNAQAyABAAMxQAACEAAAQ='
     },
-    128,
     {
       input: [
         {
           name: 'fan',
           mapping: [
             'AAECAwQF',
-            'oDBAUGBw'
+            'EDAwMDAw'
           ]
         },
         {
           name: 'swv',
           mapping: [
             'AAECAwQFBg==',
-            'BQ8BAgMEBQ=='
+            'BgUFBQUFBQ=='
           ]
         }
       ],
       opt: 'AAUAAQ=='
     },
+    0,
+    32,
     {
-      input: [
-        {
-          name: 'swh',
-          mapping: [
-            'AAECAwQFBg==',
-            'CQ0GCQoLDA=='
-          ]
-        }
-      ]
-    },
-    0, 14, 224, 0, 0, 137, 0, 0,
-    {
-      opt: 'MgAAADIA9AFSAgABEgACASIVAAAjEAAaMxMCADMUAAAhAAEI'
+      opt: 'MgAHADIAAAFSAgABEgACASIVAAAjEAAVMxMCADMUAAAhAAEI'
     }
   ]
 };
 
 var values = {
   pwr: 1, mod: 3, mode: 3, fan: 0,
-  tem: 26, swv: 4, swh: 2
+  tem: 26, swv: 4, swh: 2, btn: 1
 };
 
 // results
@@ -157,7 +177,7 @@ var values = {
 const result = [2, 32, 224, 4, 0, 0, 0, 6, 2, 32, 224, 4, 0, 57, 52, 128, 163, 6, 0, 14, 224, 0, 0, 137, 0, 0, 19];
 
 var transportArr=IRManager.convertBase64Obj2Array(transport2);
-console.log('transportArr', transportArr.modulation.table);
+// console.log('transportArr', transportArr.modulation.table);
 // console.log('transportArr', JSON.stringify(transportArr.byteMap[14]) );
 // console.log(IRManager.processData2Send(transportArr.byteMap, values).map((c, i)=>`${i} : ${c} ?= ${result[i]} ::: ${JSON.stringify(transportArr.byteMap[i])}`));
 
@@ -166,13 +186,16 @@ console.log('transportArr', transportArr.modulation.table);
 
 // console.log(IRManager.convertIRCode(IRManager.processData2Send(transportArr.byteMap, values), transportArr.modulation ) );
 
-var ret = IRManager.check_IRcode(IRManager.convertIRCode(IRManager.processData2Send(transportArr.byteMap, values), transportArr.modulation ).toString()
-  .split(',')
-  .join('    '),
-'3500   1800    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420    470    420    470    420    470    420    470    420    470    420  10000   3500   1800    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420    470    420    470    420   1350    420    470    420   1350    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420    470    420   1350    420    470    420   1350    420    470    420   1350    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420    470    420    470    420   1350    420    470    420    470    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420    470    420    470    420   1350    420    470    420    470    420    470    420   32767');
+console.log(IRManager.processData2Send(transportArr.byteMap, values));
+// console.log(IRManager.convertIRCode(IRManager.processData2Send(transportArr.byteMap, values), transportArr.modulation ));
 
-console.log('ret', ret);
+// var ret = IRManager.check_IRcode(IRManager.convertIRCode(IRManager.processData2Send(transportArr.byteMap, values), transportArr.modulation ).toString()
+//   .split(',')
+//   .join('    '),
+// '3500   1800    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420    470    420    470    420    470    420    470    420    470    420  10000   3500   1800    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420    470    420    470    420   1350    420    470    420   1350    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420    470    420   1350    420    470    420   1350    420    470    420   1350    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420    470    420    470    420   1350    420    470    420    470    420    470    420   1350    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420    470    420   1350    420   1350    420    470    420    470    420   1350    420    470    420    470    420    470    420   32767');
 //
-var pulseArray = IRManager.convertIRCode(IRManager.processData2Send(transportArr.byteMap, values), transportArr.modulation );
-console.log('pulseArray', pulseArray[437], pulseArray[438], pulseArray[439]);
-// console.log(IRManager.uInt16ArraytoBase64(pulseArray));
+// console.log('ret', ret);
+// //
+// var pulseArray = IRManager.convertIRCode(IRManager.processData2Send(transportArr.byteMap, values), transportArr.modulation );
+// console.log('pulseArray', pulseArray[437], pulseArray[438], pulseArray[439]);
+// // console.log(IRManager.uInt16ArraytoBase64(pulseArray));
